@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>שידוכים Studio - מאגר שידוכים והתאמות יוקרתי</title>
+  
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/apple-theme.css?v=2">
+  <link rel="stylesheet" href="css/animations.css?v=2">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
+</head>
+<body>
+
+  <!-- Apple Frosted Glass Header -->
+  <header class="apple-header">
+    <div class="header-container">
+      <div class="brand" onclick="window.app.navigate('dashboard')">
+        <div class="brand-icon">💍</div>
+        <div>
+          <div>שידוכים Studio</div>
+          <div class="brand-subtitle">מערכת מאגר והתאמות פרימיום</div>
+        </div>
+      </div>
+
+      <!-- Segmented Navigation Tabs -->
+      <nav class="nav-tabs">
+        <button class="nav-tab-btn active" data-view="dashboard">
+          <span>📊</span>
+          <span>לוח בקרה</span>
+        </button>
+        <button class="nav-tab-btn" data-view="candidates">
+          <span>👥</span>
+          <span>מאגר מועמדים</span>
+        </button>
+        <button class="nav-tab-btn" data-view="matches">
+          <span>💍</span>
+          <span>לוח שידוכים</span>
+        </button>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="header-actions">
+        <button class="btn-apple btn-secondary btn-sm" onclick="window.openShareLinkModal()" title="קישור שאלון למועמדים">
+          🔗 שאלון למועמד
+        </button>
+        <button id="themeToggleBtn" class="icon-btn" title="החלף מצב בהיר/כהה">
+          🌙
+        </button>
+        <div class="user-profile-badge">
+          <span>👤</span>
+          <span id="userBadgeName">יצחק וליאן בטיטו שידוכים</span>
+        </div>
+        <button id="logoutBtn" class="icon-btn" title="התנתק" style="color: var(--accent-red);">
+          🚪
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Content -->
+  <main class="main-wrapper">
+
+    <!-- ============================================== -->
+    <!-- SECTION 1: DASHBOARD -->
+    <!-- ============================================== -->
+    <section id="section-dashboard" class="app-section animate-fade-in">
+      <!-- Fast Actions Top Bar -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1 style="font-size: 1.85rem; font-weight: 700; letter-spacing: -0.02em;">שלום וברכה,</h1>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">סקירת מאגר המועמדים, שידוכים בפעולה והתקדמות פגישות בזמן אמת</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button class="btn-apple btn-secondary" onclick="window.openShareLinkModal()">
+            🔗 שלח שאלון למועמד
+          </button>
+          <button class="btn-apple btn-secondary" onclick="window.candidates.openAddModal()">
+            ➕ מועמד/ת חדש/ה
+          </button>
+          <button class="btn-apple btn-primary" onclick="window.matches.openNewMatchModal()">
+            💍 צור שידוך חדש
+          </button>
+        </div>
+      </div>
+
+      <!-- Stat Cards Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">סה״כ מועמדים</span>
+            <div class="stat-icon" style="background: rgba(0, 113, 227, 0.1); color: var(--accent-blue);">👥</div>
+          </div>
+          <div class="stat-value" id="statTotalCandidates">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">בחורים במאגר</span>
+            <div class="stat-icon" style="background: rgba(41, 151, 255, 0.1); color: #0071e3;">👨</div>
+          </div>
+          <div class="stat-value" id="statBoysCount">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">בחורות במאגר</span>
+            <div class="stat-icon" style="background: rgba(255, 45, 85, 0.1); color: var(--accent-pink);">👩</div>
+          </div>
+          <div class="stat-value" id="statGirlsCount">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">שידוכים בתהליך</span>
+            <div class="stat-icon" style="background: rgba(255, 149, 0, 0.1); color: var(--accent-orange);">⏳</div>
+          </div>
+          <div class="stat-value" id="statActiveMatches">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">זוגות שהתארסו 💍</span>
+            <div class="stat-icon" style="background: rgba(175, 82, 222, 0.1); color: var(--accent-purple);">💐</div>
+          </div>
+          <div class="stat-value" id="statEngagedMatches">0</div>
+        </div>
+      </div>
+
+      <!-- Dashboard Quick Access -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+        <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 600;">✨ שידוכים פעילים במעקב</h3>
+            <button class="btn-apple btn-secondary btn-sm" onclick="window.app.navigate('matches')">
+              לכל השידוכים ←
+            </button>
+          </div>
+          <div id="dashboardRecentMatches" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Loaded dynamically -->
+          </div>
+        </div>
+
+        <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">💡 עקרונות ומאפייני המאגר</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1rem;">
+              מאגר שידוכים ייעודי ומאובטח המאפשר תיעוד מלא ומדויק של כל פרטי המועמדים: עדה, גיל, גובה, השקפה, שירות, ישיבה, שאיפות רוחניות ומקצועיות, ויומן פגישות מפורט לכל שידוך.
+            </p>
+            <ul style="color: var(--text-secondary); font-size: 0.85rem; padding-right: 1.2rem; line-height: 1.7;">
+              <li>🔒 הערות שדכן פנימיות חסויות שאינן מודפסות בכרטיס</li>
+              <li>☕ מעקב כרונולוגי אחרי שלבי פגישות ורשמים</li>
+              <li>🖨️ ייצוא והדפסה נקייה כרטיס שידוכים מעוצב לקבצי PDF</li>
+            </ul>
+          </div>
+          <div style="margin-top: 1.5rem;">
+            <button class="btn-apple btn-primary" style="width: 100%;" onclick="window.app.navigate('candidates')">
+              מעבר למאגר המועמדים המלא
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 2: CANDIDATES DIRECTORY -->
+    <!-- ============================================== -->
+    <section id="section-candidates" class="app-section animate-fade-in" style="display: none;">
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-row">
+          <!-- Gender segmented control -->
+          <div class="segmented-control">
+            <button class="segmented-option gender-segment-btn active" data-gender="" onclick="window.candidates.setGenderFilter('')">
+              הכל
+            </button>
+            <button class="segmented-option gender-segment-btn" data-gender="boy" onclick="window.candidates.setGenderFilter('boy')">
+              👨 בחורים
+            </button>
+            <button class="segmented-option gender-segment-btn" data-gender="girl" onclick="window.candidates.setGenderFilter('girl')">
+              👩 בחורות
+            </button>
+          </div>
+
+          <!-- Search Box -->
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="candidateSearchInput" placeholder="חיפוש לפי שם, עיר, עדה, עיסוק, אופי...">
+          </div>
+
+          <!-- Hashkafa Filter -->
+          <select id="filterHashkafa" class="select-apple">
+            <option value="">כל ההשקפות</option>
+            <option value="חרדי">חרדי</option>
+            <option value="ליטאי">ליטאי</option>
+            <option value="ספרדי">ספרדי</option>
+            <option value="חסידי">חסידי</option>
+            <option value="חרדי מודרני">חרדי מודרני</option>
+            <option value="דתי לאומי">דתי לאומי תורני</option>
+          </select>
+
+          <!-- Status Filter -->
+          <select id="filterStatus" class="select-apple">
+            <option value="">כל הסטטוסים</option>
+            <option value="available">פנוי/ה להצעות</option>
+            <option value="dating">בתהליך שידוך</option>
+            <option value="paused">בהקפאה</option>
+            <option value="engaged">מאורס/ת 💍</option>
+          </select>
+
+          <!-- Add & Share Buttons -->
+          <div style="display: flex; gap: 0.5rem; margin-right: auto; flex-wrap: wrap;">
+            <button class="btn-apple btn-secondary" onclick="window.openShareLinkModal()">
+              🔗 שאלון למועמד
+            </button>
+            <button class="btn-apple btn-primary" onclick="window.candidates.openAddModal()">
+              ➕ הוסף מועמד/ת
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Candidate Grid -->
+      <div id="candidatesGrid" class="candidate-grid">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="candidatesEmptyState" style="display: none; text-align: center; padding: 4rem 1.5rem;">
+        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🔍</div>
+        <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">לא נמצאו מועמדים התואמים לחיפוש</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">נסה לשנות את מילות החיפוש או לאפס את הסינונים</p>
+        <button class="btn-apple btn-secondary" onclick="document.getElementById('candidateSearchInput').value=''; window.candidates.setSearchQuery('');">
+          אפס סינונים
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 3: MATCHMAKING PIPELINE -->
+    <!-- ============================================== -->
+    <section id="section-matches" class="app-section animate-fade-in" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1 style="font-size: 1.85rem; font-weight: 700; letter-spacing: -0.02em;">לוח מעקב שידוכים</h1>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">מעקב צעד-אחר-צעד: מרעיון ראשוני, מענה צדדים, פגישות ועד לאירוסין</p>
+        </div>
+        <button class="btn-apple btn-primary" onclick="window.matches.openNewMatchModal()">
+          💍 צור שידוך חדש
+        </button>
+      </div>
+
+      <!-- Pipeline Kanban Board -->
+      <div id="pipelineBoard" class="pipeline-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================== -->
+  <!-- MODALS -->
+  <!-- ============================================== -->
+
+  <!-- 1. Login Modal -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 420px;">
+      <div class="modal-header" style="justify-content: center; text-align: center;">
+        <div>
+          <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">💍</div>
+          <h2 class="modal-title">כניסה למערכת שידוכים</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">הזן שם משתמש וסיסמה לגישה מאובטחת</p>
+        </div>
+      </div>
+      <form id="loginForm">
+        <div class="modal-body" style="gap: 1rem;">
+          <div id="loginError" style="display: none; padding: 0.65rem; background: rgba(255, 59, 48, 0.1); color: var(--accent-red); border-radius: var(--radius-sm); font-size: 0.85rem; text-align: center;"></div>
+          <div class="form-group">
+            <label class="form-label">שם משתמש</label>
+            <input type="text" id="loginUsername" class="form-input" placeholder="שם משתמש" required autocomplete="username" value="123">
+          </div>
+          <div class="form-group">
+            <label class="form-label">סיסמה</label>
+            <input type="password" id="loginPassword" class="form-input" placeholder="סיסמה" required autocomplete="current-password" value="123">
+          </div>
+          <div style="font-size: 0.78rem; color: var(--text-tertiary); text-align: center;">
+            פרטי כניסה: <strong>123</strong> / <strong>123</strong>
+          </div>
+        </div>
+        <div class="modal-footer" style="justify-content: stretch;">
+          <button type="submit" class="btn-apple btn-primary" style="width: 100%;">
+            התחבר למערכת
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Candidate Full Profile Modal -->
+  <div id="candidateProfileModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 900px;">
+      <div class="modal-header">
+        <h3 class="modal-title">כרטיס מועמד מפורט</h3>
+        <button class="icon-btn" onclick="window.candidates.closeProfileModal()" title="סגור">✕</button>
+      </div>
+      <div id="candidateProfileModalBody" class="modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-apple btn-secondary" onclick="window.candidates.closeProfileModal()">סגור</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Candidate Add/Edit Form Modal -->
+  <div id="candidateFormModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 820px;">
+      <div class="modal-header">
+        <h3 id="candidateFormModalTitle" class="modal-title">הוספת מועמד/ת</h3>
+        <button class="icon-btn" onclick="window.candidates.closeFormModal()" title="סגור">✕</button>
+      </div>
+      <form id="candidateForm">
+        <input type="hidden" id="cand_id">
+        <div class="modal-body">
+          
+          <!-- קבוצה 1: פרטי יסוד -->
+          <div class="form-section-title">
+            <span>👤 פרטי יסוד ומגורים</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">שם מלא *</label>
+              <input type="text" id="cand_name" class="form-input" placeholder="למשל: אור החיים כהן" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">מגדר *</label>
+              <select id="cand_gender" class="form-select" required>
+                <option value="boy">בחור 👨</option>
+                <option value="girl">בחורה 👩</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">גיל</label>
+              <input type="number" id="cand_age" class="form-input" placeholder="למשל: 22" min="17" max="99">
+            </div>
+            <div class="form-group">
+              <label class="form-label">תאריך לידה (אופציונלי)</label>
+              <input type="date" id="cand_birth_date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">עדה</label>
+              <input type="text" id="cand_origin" class="form-input" placeholder="למשל: מרוקאי ועיראקי, אשכנזי...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">גובה (מטרים)</label>
+              <input type="number" step="0.01" id="cand_height" class="form-input" placeholder="למשל: 1.72">
+            </div>
+            <div class="form-group">
+              <label class="form-label">מבנה כללי</label>
+              <input type="text" id="cand_build" class="form-input" placeholder="רגיל, רזה, ספורטיבי...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">מצב משפחתי</label>
+              <select id="cand_marital_status" class="form-select">
+                <option value="רווק/ה">רווק/ה</option>
+                <option value="גרוש/ה">גרוש/ה</option>
+                <option value="אלמן/ה">אלמן/ה</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">מקום מגורים (עיר/יישוב)</label>
+              <input type="text" id="cand_city" class="form-input" placeholder="למשל: גני תקווה, ירושלים...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">סטטוס זמינות לשידוכים</label>
+              <select id="cand_status" class="form-select">
+                <option value="available">פנוי/ה להצעות</option>
+                <option value="dating">בתהליך שידוך</option>
+                <option value="paused">בהקפאה</option>
+                <option value="engaged">מאורס/ת 💍</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- קבוצה 2: השקפה ואורח חיים -->
+          <div class="form-section-title" style="margin-top: 1rem;">
+            <span>🕊️ השקפה דתית ואורח חיים</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">השקפה</label>
+              <input type="text" id="cand_hashkafa" class="form-input" placeholder="חרדי, ליטאי, ספרדי, חרדי מודרני...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">שומר/ת נגיעה</label>
+              <select id="cand_shomer_negiah" class="form-select">
+                <option value="כן">כן</option>
+                <option value="משתדל/ת">משתדל/ת</option>
+                <option value="לא">לא</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">מעשן/ת</label>
+              <select id="cand_smoker" class="form-select">
+                <option value="לא">לא</option>
+                <option value="כן">כן</option>
+                <option value="באירועים בלבד">באירועים בלבד</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">סוג טלפון</label>
+              <select id="cand_phone_type" class="form-select">
+                <option value="כשר">כשר</option>
+                <option value="מסונן">מסונן</option>
+                <option value="חכם">חכם</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- קבוצה 3: שירות, עיסוק ומשפחה -->
+          <div class="form-section-title" style="margin-top: 1rem;">
+            <span>🎓 לימודים, שירות ומשפחה</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">שירות צבאי / לאומי / ישיבה</label>
+              <input type="text" id="cand_military_service" class="form-input" placeholder="ישיבה 6 שנים, שירות לאומי, פטור...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">עיסוק נוכחי ושאיפה לעתיד</label>
+              <input type="text" id="cand_occupation" class="form-input" placeholder="ישיבה, שואף לאברכות עם ראש פתוח לעבודה...">
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label">תאר/י בקווים כלליים את משפחתך</label>
+              <input type="text" id="cand_family_description" class="form-input" placeholder="משפחה דתית חמה ואוהבת, ערכים טובים...">
+            </div>
+          </div>
+
+          <!-- קבוצה 4: עולם פנימי ושאיפות -->
+          <div class="form-section-title" style="margin-top: 1rem;">
+            <span>🌟 עולם פנימי וחיפוש זוגיות</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label class="form-label">קצת עלי (אופי, מידות, ערכים)</label>
+              <textarea id="cand_about_me" class="form-textarea" placeholder="ספר על עצמך, תכונות אופי, שאיפות רוחניות ואישיות..."></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label">מה אני מחפש/ת בבן/בת הזוג</label>
+              <textarea id="cand_looking_for" class="form-textarea" placeholder="תכונות חשובות, יראת שמיים, מראה, כיוון משותף לחיים..."></textarea>
+            </div>
+          </div>
+
+          <!-- קבוצה 5: אנשי קשר ובירורים -->
+          <div class="form-section-title" style="margin-top: 1rem;">
+            <span>📞 אנשי קשר, בירורים והערות שדכן</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">טלפון ליצירת קשר / הורים</label>
+              <input type="text" id="cand_contact_phone" class="form-input" placeholder="050-1234567 (אבא)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">שמות ממליצים ורבנים לבירור</label>
+              <input type="text" id="cand_referrals" class="form-input" placeholder="הרב כהן - 052-..., משגיח...">
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label" style="color: var(--accent-orange);">🔒 הערות פנימיות של השדכן (חסוי - אינו מודפס)</label>
+              <textarea id="cand_internal_notes" class="form-textarea" style="border-color: rgba(255, 149, 0, 0.4);" placeholder="הערות דיסקרטיות, התאמות רעיוניות, תובנות אישיות..."></textarea>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-apple btn-secondary" onclick="window.candidates.closeFormModal()">ביטול</button>
+          <button type="submit" class="btn-apple btn-primary">שמור מועמד</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. New Match Modal -->
+  <div id="newMatchModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 class="modal-title">💍 יצירת שידוך חדש</h3>
+        <button class="icon-btn" onclick="window.matches.closeNewMatchModal()" title="סגור">✕</button>
+      </div>
+      <form id="newMatchForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">בחר בחור 👨 *</label>
+            <select id="matchBoySelect" class="form-select" required>
+              <!-- Filled dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">בחר בחורה 👩 *</label>
+            <select id="matchGirlSelect" class="form-select" required>
+              <!-- Filled dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">הערות ראשוניות להצעה</label>
+            <textarea id="matchInitialNotes" class="form-textarea" placeholder="מדוע נראה מתאים, נקודות חיבור, מי העלה את הרעיון..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-apple btn-secondary" onclick="window.matches.closeNewMatchModal()">ביטול</button>
+          <button type="submit" class="btn-apple btn-primary">צור שידוך</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. Match Detail & Timeline Modal -->
+  <div id="matchDetailModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 760px;">
+      <div class="modal-header">
+        <h3 class="modal-title">מעקב שידוך ויומן פגישות</h3>
+        <button class="icon-btn" onclick="window.matches.closeMatchModal()" title="סגור">✕</button>
+      </div>
+      <div id="matchDetailModalBody" class="modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Share Link Modal -->
+  <div id="shareLinkModal" class="modal-overlay" onclick="if(event.target === this) window.closeShareLinkModal()">
+    <div class="modal-content" style="max-width: 560px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🔗 שיתוף שאלון למועמד/ת</h3>
+        <button class="icon-btn" onclick="window.closeShareLinkModal()" title="סגור">✕</button>
+      </div>
+      <div class="modal-body" style="gap: 1.25rem;">
+        <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.55;">
+          שלח קישור זה לכל בחור או בחורה. הם יוכלו למלא בדיסקרטיות את כל פרטיהם, וברגע שישלחו – הכרטיס שלהם ייקלט אוטומטית במאגר שלכם!
+        </p>
+
+        <div class="form-group">
+          <label class="form-label">הקישור לשאלון האישי:</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" id="shareLinkInput" class="form-input" readonly style="direction: ltr; font-weight: 500; text-align: left; flex: 1;">
+            <button class="btn-apple btn-primary" onclick="window.copyShareLink()">
+              📋 העתק
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--bg-input); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+          <div style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary);">
+            💬 שיתוף מהיר ישירות בוואטסאפ:
+          </div>
+          <button class="btn-apple btn-secondary" onclick="window.shareOnWhatsApp()" style="justify-content: center; gap: 0.5rem; background: #25D366; color: #fff; border: none; font-weight: 600; padding: 0.75rem;">
+            <span style="font-size: 1.2rem;">💬</span> שליחה בוואטסאפ למועמד/ת
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-apple btn-secondary" onclick="window.closeShareLinkModal()">סגור</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js?v=2"></script>
+  <script src="js/auth.js?v=2"></script>
+  <script src="js/candidates.js?v=2"></script>
+  <script src="js/matches.js?v=2"></script>
+  <script src="js/app.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>שאלון הצטרפות למאגר שידוכים – יצחק וליאן בטיטו</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/apple-theme.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
+
+  <style>
+    body {
+      background-color: var(--bg-primary);
+      padding: 1.5rem 1rem 4rem 1rem;
+    }
+    .join-container {
+      max-width: 740px;
+      margin: 0 auto;
+    }
+    .join-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: 2.25rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 600px) {
+      .join-card {
+        padding: 1.25rem;
+        border-radius: var(--radius-lg);
+      }
+    }
+    .gender-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    .gender-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.4rem 1rem;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--border-light);
+      background: var(--bg-input);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+      position: relative;
+    }
+    .gender-option:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+    .gender-option.selected {
+      border-color: var(--accent-blue);
+      background: rgba(0, 113, 227, 0.08);
+      box-shadow: 0 6px 18px rgba(0, 113, 227, 0.18);
+    }
+    .gender-option.selected.girl {
+      border-color: var(--accent-pink);
+      background: rgba(255, 45, 85, 0.08);
+      box-shadow: 0 6px 18px rgba(255, 45, 85, 0.18);
+    }
+    .gender-icon {
+      font-size: 2.75rem;
+      margin-bottom: 0.35rem;
+    }
+    .gender-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .gender-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+    .gender-badge {
+      display: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.25rem 0.8rem;
+      border-radius: 20px;
+      margin-top: 0.6rem;
+    }
+    .gender-option.selected .gender-badge {
+      display: inline-block;
+      background: var(--accent-blue);
+      color: #fff;
+    }
+    .gender-option.selected.girl .gender-badge {
+      background: var(--accent-pink);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="join-container animate-fade-in">
+    
+    <!-- Header Hero -->
+    <div style="text-align: center; padding: 1.5rem 0;">
+      <div style="display: inline-flex; align-items: center; justify-content: center; width: 68px; height: 68px; border-radius: 20px; background: linear-gradient(135deg, #0071e3 0%, #af52de 100%); color: #fff; font-size: 2rem; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(0, 113, 227, 0.25);">
+        💍
+      </div>
+      <h1 style="font-size: 1.85rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.4rem;">
+        שאלון הצטרפות למאגר שידוכים
+      </h1>
+      <p style="color: var(--accent-gold); font-weight: 600; font-size: 1.05rem; margin-bottom: 0.5rem;">
+        יצחק וליאן בטיטו
+      </p>
+      <p id="headerIntroText" style="color: var(--text-secondary); font-size: 0.95rem; max-width: 540px; margin: 0 auto; line-height: 1.55;">
+        ברוך הבא! אנא מלא את הפרטים בדיסקרטיות מלאה. הנתונים מועברים ישירות לשדכנים לצורך מציאת התאמה מדויקת וערכית בעזרת השם.
+      </p>
+    </div>
+
+    <!-- Registration Form -->
+    <div id="formSection" class="join-card">
+      <form id="publicJoinForm">
+
+        <!-- בחירת מגדר ברורה -->
+        <div style="text-align: center; margin-bottom: 1.25rem;">
+          <label class="form-label" style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.35rem; display: block; color: var(--text-primary);">
+            האם את/ה גבר או אישה?
+          </label>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">
+            בחרו את האפשרות שלכם כדי שהשאלון ינוסח ויותאם אליכם באופן אישי:
+          </p>
+        </div>
+
+        <div class="gender-selector">
+          <div id="genderBoyBtn" class="gender-option selected" onclick="selectGender('boy')">
+            <span class="gender-icon">👨</span>
+            <span class="gender-title">אני גבר / בחור</span>
+            <span class="gender-subtitle">מחפש בת זוג</span>
+            <span class="gender-badge">נבחר ✓</span>
+          </div>
+          <div id="genderGirlBtn" class="gender-option girl" onclick="selectGender('girl')">
+            <span class="gender-icon">👩</span>
+            <span class="gender-title">אני אישה / בחורה</span>
+            <span class="gender-subtitle">מחפשת בן זוג</span>
+            <span class="gender-badge">נבחר ✓</span>
+          </div>
+        </div>
+        <input type="hidden" id="join_gender" value="boy">
+
+        <!-- קבוצה 1: פרטי יסוד -->
+        <div class="form-section-title">
+          <span>👤 פרטי יסוד ומגורים</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">שם מלא *</label>
+            <input type="text" id="join_name" class="form-input" placeholder="שם פרטי ומשפחה" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">גיל *</label>
+            <input type="number" id="join_age" class="form-input" placeholder="למשל: 22" min="17" max="99" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">תאריך לידה (אופציונלי)</label>
+            <input type="date" id="join_birth_date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">עדה</label>
+            <input type="text" id="join_origin" class="form-input" placeholder="למשל: מרוקאי, עיראקי, אשכנזי, תימני...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">גובה (במטרים)</label>
+            <input type="number" step="0.01" id="join_height" class="form-input" placeholder="למשל: 1.72">
+          </div>
+          <div class="form-group">
+            <label class="form-label">מבנה כללי</label>
+            <input type="text" id="join_build" class="form-input" placeholder="למשל: רגיל, רזה, ספורטיבי, מבנה רחב...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">מצב משפחתי</label>
+            <select id="join_marital_status" class="form-select">
+              <option value="רווק">רווק</option>
+              <option value="גרוש">גרוש</option>
+              <option value="אלמן">אלמן</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">מקום מגורים (עיר/יישוב) *</label>
+            <input type="text" id="join_city" class="form-input" placeholder="למשל: גני תקווה, ירושלים..." required>
+          </div>
+        </div>
+
+        <!-- קבוצה 2: השקפה ואורח חיים -->
+        <div class="form-section-title" style="margin-top: 1.5rem;">
+          <span>🕊️ השקפה דתית ואורח חיים</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">השקפה דתית *</label>
+            <input type="text" id="join_hashkafa" class="form-input" placeholder="חרדי, ליטאי, ספרדי, חרדי מודרני, דתי לאומי תורני..." required>
+          </div>
+          <div class="form-group">
+            <label id="label_shomer_negiah" class="form-label">שומר נגיעה</label>
+            <select id="join_shomer_negiah" class="form-select">
+              <option value="כן">כן</option>
+              <option value="משתדל">משתדל</option>
+              <option value="לא">לא</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label id="label_smoker" class="form-label">מעשן</label>
+            <select id="join_smoker" class="form-select">
+              <option value="לא">לא</option>
+              <option value="כן">כן</option>
+              <option value="באירועים בלבד">באירועים בלבד</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">סוג טלפון</label>
+            <select id="join_phone_type" class="form-select">
+              <option value="כשר">כשר</option>
+              <option value="מסונן">מסונן</option>
+              <option value="חכם">חכם</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- קבוצה 3: לימודים, שירות ומשפחה -->
+        <div class="form-section-title" style="margin-top: 1.5rem;">
+          <span>🎓 לימודים, שירות ומשפחה</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label id="label_military_service" class="form-label">שירות צבאי / ישיבה / לאומי</label>
+            <input type="text" id="join_military_service" class="form-input" placeholder="למשל: ישיבה 6 שנים, שירות צבאי, שילוב, פטור...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">עיסוק נוכחי ושאיפה לעתיד</label>
+            <input type="text" id="join_occupation" class="form-input" placeholder="למשל: ישיבה, שואף לאברכות עם ראש פתוח לעבודה...">
+          </div>
+          <div class="form-group full-width">
+            <label id="label_family_description" class="form-label">תאר בקווים כלליים את משפחתך</label>
+            <input type="text" id="join_family_description" class="form-input" placeholder="למשל: משפחה דתית חמה ואוהבת, אופי הבית וההורים...">
+          </div>
+        </div>
+
+        <!-- קבוצה 4: עולם פנימי ושאיפות -->
+        <div class="form-section-title" style="margin-top: 1.5rem;">
+          <span id="section_personal_title">🌟 עולם פנימי וחיפוש בת זוג</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label id="label_about_me" class="form-label">קצת עלי (אופי, מידות, שאיפות רוחניות ואישיות)</label>
+            <textarea id="join_about_me" class="form-textarea" placeholder="ספר קצת על עצמך, תכונות אופי בולטות, אורח חיים, מה חשוב לך..."></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label id="label_looking_for" class="form-label">מה אני מחפש בבת הזוג 👩💍</label>
+            <textarea id="join_looking_for" class="form-textarea" placeholder="מה התכונות שחשובות לך בבחורה, כיוון דתי והשקפתי, מראה, סגנון חיים והשאיפות המשותפות..."></textarea>
+          </div>
+        </div>
+
+        <!-- קבוצה 5: אנשי קשר ובירורים -->
+        <div class="form-section-title" style="margin-top: 1.5rem;">
+          <span>📞 יצירת קשר ובירורים</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">טלפון ליצירת קשר / הורים *</label>
+            <input type="tel" id="join_contact_phone" class="form-input" placeholder="050-1234567" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">שמות ממליצים ורבנים לבירור</label>
+            <input type="text" id="join_referrals" class="form-input" placeholder="שם וטלפון רב / מורה / חבר...">
+          </div>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <button type="submit" id="submitBtn" class="btn-apple btn-primary" style="width: 100%; padding: 0.95rem; font-size: 1.05rem; font-weight: 600;">
+            💍 שליחת השאלון והצטרפות למאגר
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Success State View -->
+    <div id="successSection" class="join-card animate-slide-up" style="display: none; text-align: center; padding: 3rem 1.5rem;">
+      <div style="font-size: 4rem; margin-bottom: 1rem;">💐</div>
+      <h2 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--accent-green);">
+        השאלון נשלח ונקלט בהצלחה!
+      </h2>
+      <p id="successMessageText" style="color: var(--text-secondary); font-size: 1rem; line-height: 1.6; max-width: 500px; margin: 0 auto 2rem auto;">
+        תודה רבה על מילוי הפרטים. הנתונים הועברו למאגר של <strong>יצחק וליאן בטיטו</strong>. בעזרת השם נעבור על הפרטים וניצור איתך קשר בהקדם עם הצעות מתאימות להקמת בית נאמן בישראל!
+      </p>
+      <button class="btn-apple btn-secondary" onclick="resetForm()">
+        מילוי שאלון נוסף
+      </button>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem; color: var(--text-tertiary); font-size: 0.8rem;">
+      מאגר שידוכים – יצחק וליאן בטיטו | כל הזכויות שמורות
+    </div>
+
+  </div>
+
+  <script>
+    const GENDER_CONFIG = {
+      boy: {
+        intro: 'ברוך הבא! אנא מלא את הפרטים בדיסקרטיות מלאה. הנתונים מועברים ישירות לשדכנים לצורך מציאת התאמה מדויקת וערכית בעזרת השם.',
+        buildPlaceholder: 'למשל: רגיל, רזה, ספורטיבי, מבנה רחב...',
+        maritalOptions: [
+          { val: 'רווק', label: 'רווק' },
+          { val: 'גרוש', label: 'גרוש' },
+          { val: 'אלמן', label: 'אלמן' }
+        ],
+        labelShomerNegiah: 'שומר נגיעה',
+        shomerOptions: [
+          { val: 'כן', label: 'כן' },
+          { val: 'משתדל', label: 'משתדל' },
+          { val: 'לא', label: 'לא' }
+        ],
+        labelSmoker: 'מעשן',
+        labelMilitary: 'שירות צבאי / ישיבה / לאומי',
+        placeholderMilitary: 'למשל: ישיבה 6 שנים, שירות צבאי, שילוב, פטור...',
+        placeholderOccupation: 'למשל: ישיבה, שואף לאברכות עם ראש פתוח לעבודה...',
+        labelFamily: 'תאר בקווים כלליים את משפחתך',
+        placeholderFamily: 'למשל: משפחה דתית חמה ואוהבת, אופי הבית וההורים...',
+        sectionPersonal: '🌟 עולם פנימי וחיפוש בת זוג',
+        labelAboutMe: 'קצת עלי (אופי, מידות, שאיפות רוחניות ואישיות)',
+        placeholderAboutMe: 'ספר קצת על עצמך, תכונות אופי בולטות, אורח חיים, מה חשוב לך...',
+        labelLookingFor: 'מה אני מחפש בבת הזוג 👩💍',
+        placeholderLookingFor: 'מה התכונות שחשובות לך בבחורה, כיוון דתי והשקפתי, מראה, סגנון חיים והשאיפות המשותפות...'
+      },
+      girl: {
+        intro: 'ברוכה הבאה! אנא מלאי את הפרטים בדיסקרטיות מלאה. הנתונים מועברים ישירות לשדכנים לצורך מציאת התאמה מדויקת וערכית בעזרת השם.',
+        buildPlaceholder: 'למשל: רגיל, רזה, עדינה, מבנה ממוצע...',
+        maritalOptions: [
+          { val: 'רווקה', label: 'רווקה' },
+          { val: 'גרושה', label: 'גרושה' },
+          { val: 'אלמנה', label: 'אלמנה' }
+        ],
+        labelShomerNegiah: 'שומרת נגיעה',
+        shomerOptions: [
+          { val: 'כן', label: 'כן' },
+          { val: 'משתדלת', label: 'משתדלת' },
+          { val: 'לא', label: 'לא' }
+        ],
+        labelSmoker: 'מעשנת',
+        labelMilitary: 'שירות לאומי / לימודים / צבאי',
+        placeholderMilitary: 'למשל: שירות לאומי שנתיים, לימודי הוראה / תואר, פטור...',
+        placeholderOccupation: 'למשל: עובדת בחינוך / הייטק, סטודנטית, שואפת לבית של תורה...',
+        labelFamily: 'תארי בקווים כלליים את משפחתך',
+        placeholderFamily: 'למשל: משפחה דתית חמה ואוהבת, אופי הבית וההורים...',
+        sectionPersonal: '🌟 עולם פנימי וחיפוש בן זוג',
+        labelAboutMe: 'קצת עלי (אופי, מידות, שאיפות רוחניות ואישיות)',
+        placeholderAboutMe: 'ספרי קצת על עצמך, תכונות אופי בולטות, אורח חיים, מה חשוב לך...',
+        labelLookingFor: 'מה אני מחפשת בבן הזוג 👨💍',
+        placeholderLookingFor: 'מה התכונות שחשובות לך בבחור, כיוון דתי וישיבתי, מראה, סגנון חיים והשאיפות המשותפות...'
+      }
+    };
+
+    function selectGender(gender) {
+      document.getElementById('join_gender').value = gender;
+      const boyBtn = document.getElementById('genderBoyBtn');
+      const girlBtn = document.getElementById('genderGirlBtn');
+      
+      if (gender === 'boy') {
+        boyBtn.classList.add('selected');
+        girlBtn.classList.remove('selected');
+      } else {
+        girlBtn.classList.add('selected');
+        boyBtn.classList.remove('selected');
+      }
+
+      const cfg = GENDER_CONFIG[gender];
+      if (!cfg) return;
+
+      // Update Header Text
+      const introEl = document.getElementById('headerIntroText');
+      if (introEl) introEl.textContent = cfg.intro;
+
+      // Update Marital Status Dropdown preserving selection index
+      const maritalSelect = document.getElementById('join_marital_status');
+      if (maritalSelect) {
+        const curIdx = Math.max(0, maritalSelect.selectedIndex);
+        maritalSelect.innerHTML = cfg.maritalOptions
+          .map(opt => `<option value="${opt.val}">${opt.label}</option>`)
+          .join('');
+        maritalSelect.selectedIndex = curIdx < cfg.maritalOptions.length ? curIdx : 0;
+      }
+
+      // Update placeholders and labels
+      const buildInput = document.getElementById('join_build');
+      if (buildInput) buildInput.placeholder = cfg.buildPlaceholder;
+
+      const shomerLabel = document.getElementById('label_shomer_negiah');
+      if (shomerLabel) shomerLabel.textContent = cfg.labelShomerNegiah;
+
+      const shomerSelect = document.getElementById('join_shomer_negiah');
+      if (shomerSelect && cfg.shomerOptions) {
+        const curVal = shomerSelect.value;
+        shomerSelect.innerHTML = cfg.shomerOptions
+          .map(opt => `<option value="${opt.val}">${opt.label}</option>`)
+          .join('');
+        if (curVal === 'משתדל' || curVal === 'משתדלת') {
+          shomerSelect.value = gender === 'boy' ? 'משתדל' : 'משתדלת';
+        } else if (curVal === 'לא') {
+          shomerSelect.value = 'לא';
+        } else {
+          shomerSelect.value = 'כן';
+        }
+      }
+
+      const smokerLabel = document.getElementById('label_smoker');
+      if (smokerLabel) smokerLabel.textContent = cfg.labelSmoker;
+
+      const militaryLabel = document.getElementById('label_military_service');
+      if (militaryLabel) militaryLabel.textContent = cfg.labelMilitary;
+      const militaryInput = document.getElementById('join_military_service');
+      if (militaryInput) militaryInput.placeholder = cfg.placeholderMilitary;
+
+      const occupationInput = document.getElementById('join_occupation');
+      if (occupationInput) occupationInput.placeholder = cfg.placeholderOccupation;
+
+      const familyLabel = document.getElementById('label_family_description');
+      if (familyLabel) familyLabel.textContent = cfg.labelFamily;
+      const familyInput = document.getElementById('join_family_description');
+      if (familyInput) familyInput.placeholder = cfg.placeholderFamily;
+
+      const sectionPersonal = document.getElementById('section_personal_title');
+      if (sectionPersonal) sectionPersonal.textContent = cfg.sectionPersonal;
+
+      const aboutLabel = document.getElementById('label_about_me');
+      if (aboutLabel) aboutLabel.textContent = cfg.labelAboutMe;
+      const aboutInput = document.getElementById('join_about_me');
+      if (aboutInput) aboutInput.placeholder = cfg.placeholderAboutMe;
+
+      const lookingLabel = document.getElementById('label_looking_for');
+      if (lookingLabel) lookingLabel.textContent = cfg.labelLookingFor;
+      const lookingInput = document.getElementById('join_looking_for');
+      if (lookingInput) lookingInput.placeholder = cfg.placeholderLookingFor;
+    }
+
+    document.getElementById('publicJoinForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'שולח נתונים למאגר...';
+
+      const payload = {
+        name: document.getElementById('join_name').value.trim(),
+        gender: document.getElementById('join_gender').value,
+        age: document.getElementById('join_age').value,
+        birth_date: document.getElementById('join_birth_date').value,
+        origin: document.getElementById('join_origin').value.trim(),
+        height: document.getElementById('join_height').value,
+        build: document.getElementById('join_build').value.trim(),
+        marital_status: document.getElementById('join_marital_status').value,
+        city: document.getElementById('join_city').value.trim(),
+        hashkafa: document.getElementById('join_hashkafa').value.trim(),
+        shomer_negiah: document.getElementById('join_shomer_negiah').value,
+        smoker: document.getElementById('join_smoker').value,
+        phone_type: document.getElementById('join_phone_type').value,
+        military_service: document.getElementById('join_military_service').value.trim(),
+        occupation: document.getElementById('join_occupation').value.trim(),
+        family_description: document.getElementById('join_family_description').value.trim(),
+        about_me: document.getElementById('join_about_me').value.trim(),
+        looking_for: document.getElementById('join_looking_for').value.trim(),
+        contact_phone: document.getElementById('join_contact_phone').value.trim(),
+        referrals: document.getElementById('join_referrals').value.trim(),
+        status: 'available',
+        internal_notes: 'נוסף דרך שאלון ההרשמה הדיגיטלי'
+      };
+
+      try {
+        const res = await fetch('/api/candidates/public', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || 'שגיאה בשליחת השאלון');
+        }
+
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('successSection').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        alert(err.message || 'שגיאה בשליחת השאלון, אנא נסה שוב.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '💍 שליחת השאלון והצטרפות למאגר';
+      }
+    });
+
+    function resetForm() {
+      document.getElementById('publicJoinForm').reset();
+      selectGender('boy');
+      document.getElementById('formSection').style.display = 'block';
+      document.getElementById('successSection').style.display = 'none';
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '💍 שליחת השאלון והצטרפות למאגר';
+    }
+
+    // Initialize initial gender state
+    selectGender('boy');
+  </script>
+</body>
+</html>
